@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [staging, temp]
+    branches: [main, temp]
   pull_request:
-    branches: [staging]
+    branches: [main]
 
 jobs:
   lint:
@@ -25,9 +25,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image
-        run: docker build -t execute-tech-academy:${{ github.sha }} .
+        run: docker build -t flask-web-app_image:${{ github.sha }} .
       - name: Save image
-        run: docker save execute-tech-academy:${{ github.sha }} | gzip > image.tar.gz
+        run: docker save flask-web-app_image:${{ github.sha }} | gzip > image.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: docker-image
@@ -50,13 +50,13 @@ jobs:
           echo "deb https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update && sudo apt-get install -y trivy
       - name: Run Trivy scan
-        run: trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed execute-tech-academy:${{ github.sha }}
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed flask-web-app_image:${{ github.sha }}
 
   push:
     name: Push to ECR and Deploy to ECS
     runs-on: ubuntu-latest
     needs: scan
-    if: github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/temp'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/temp'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -81,13 +81,13 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
-          docker tag execute-tech-academy:${{ github.sha }} $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
+          docker tag flask-web-app_image:${{ github.sha }} $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
 
       - name: Download task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ci-project-task \
+            --task-definition flask-web-app_task_definition:1 \
             --query taskDefinition \
             --output json | \
             jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' \
@@ -98,15 +98,15 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: "ci-project-container"
+          container-name: "flask-web-app_container"
           image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ci-project-task-service-dwusgl2r 
-          cluster: ci-project_cluster
+          service: flask-web-app_service 
+          cluster: flask-web-app_cluster
           wait-for-service-stability: true
           force-new-deployment: true
 
@@ -114,7 +114,7 @@ jobs:
         if: always()
         run: |
           aws ecs describe-services \
-            --cluster ci-project_cluster \
-            --services ci-project-task-service-dwusgl2r \
+            --cluster flask-web-app_cluster \
+            --services flask-web-app_service \
             --query "services[0].{status:status, runningCount:runningCount, pendingCount:pendingCount, desiredCount:desiredCount}" \
             --output yaml
