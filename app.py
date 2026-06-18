@@ -20,9 +20,11 @@ def contact():
         submitted = True
     return render_template('contact.html', page='contact', submitted=submitted)
 
+
 @app.route('/vision')
 def vision():
     return render_template('vision.html', page='vision')
+
 
 @app.route('/health')
 def health():
