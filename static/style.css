@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0D0D0D;
+  color: #F0F0F0;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: #111;
+  border-bottom: 1px solid #222;
+}
+
+nav .logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #00C896;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+nav ul a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+nav ul a:hover {
+  color: #00C896;
+}
+
+.hero {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0D0D0D, #1A1A2E);
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #00C896;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #00C896;
+  color: #0D0D0D;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: #00A87C;
+}
+
+.features {
+  display: flex;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 300px;
+  flex: 1;
+}
+
+.card h3 {
+  color: #00C896;
+  margin-bottom: 0.8rem;
+}
+
+.card p {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: #111;
+  color: #555;
+  font-size: 0.85rem;
+  border-top: 1px solid #222;
+}
+.about-hero {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #0D0D0D, #1A1A2E);
+}
+
+.about-hero h1 {
+  font-size: 2.5rem;
+  color: #00C896;
+  margin-bottom: 1rem;
+}
+
+.about-hero p {
+  font-size: 1.1rem;
+  color: #aaa;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.about-content {
+  display: flex;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.about-card {
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 300px;
+  flex: 1;
+}
+
+.about-card h3 {
+  color: #00C896;
+  margin-bottom: 0.8rem;
+}
+
+.about-card p {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+nav ul a.active {
+  color: #00C896;
+  border-bottom: 2px solid #00C896;
+  padding-bottom: 2px;
+}
+
+.contact-hero {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #0D0D0D, #1A1A2E);
+}
+
+.contact-hero h1 {
+  font-size: 2.5rem;
+  color: #00C896;
+  margin-bottom: 1rem;
+}
+
+.contact-hero p {
+  font-size: 1.1rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-section {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.form-group input,
+.form-group textarea {
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  color: #F0F0F0;
+  font-size: 0.95rem;
+  font-family: 'Segoe UI', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00C896;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.success-message {
+  background: #0f2e22;
+  border: 1px solid #00C896;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #00C896;
+  font-size: 1rem;
+}
